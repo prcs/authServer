@@ -23,7 +23,7 @@
 
 			<p>
 				You hereby authorize "
-<%-- 				<c:out value="${client.clientId}" /> --%>
+				<c:out value="${client.clientId}" />
 				" to access your protected resources.
 			</p>
 
@@ -31,21 +31,21 @@
 				action="<%=request.getContextPath()%>/oauth/authorize" method="post">
 				<input name="user_oauth_approval" value="true" type="hidden" />
 				<ul class="list-unstyled">
-<%-- 					<c:forEach items="${scopes}" var="scope"> --%>
-<!-- 						<c:set var="approved"> -->
-<%-- 							<c:if test="${scope.value}"> checked</c:if> --%>
-<!-- 						</c:set> -->
-<!-- 						<c:set var="denied"> -->
-<%-- 							<c:if test="${!scope.value}"> checked</c:if> --%>
-<!-- 						</c:set> -->
-<!-- 						<li> -->
-<!-- 							<div class="form-group"> -->
-<%-- 								${scope.key}: <input type="radio" name="${scope.key}" --%>
-<%-- 									value="true" ${approved}>Approve</input> <input type="radio" --%>
-<%-- 									name="${scope.key}" value="false" ${denied}>Deny</input> --%>
-<!-- 							</div> -->
-<!-- 						</li> -->
-<!-- 					</c:forEach> -->
+					<c:forEach items="${scopes}" var="scope">
+ 						<c:set var="approved">
+							<c:if test="${scope}"> scope</c:if>
+ 						</c:set>
+ 						<c:set var="denied"> 
+							<c:if test="${!scope}"> checked</c:if>
+ 						</c:set> 
+ 						<li> 
+ 							<div class="form-group"> 
+								${scope}: <input type="radio" name="scope.read"
+									value="true">Approve</input> <input type="radio"
+									name="${scope}" value="false" ${denied}>Deny</input>
+ 							</div> 
+ 						</li>
+ 					</c:forEach>
 				</ul>
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />

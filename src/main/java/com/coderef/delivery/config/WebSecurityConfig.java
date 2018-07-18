@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import com.coderef.delivery.service.UserDetailsService;
 
@@ -57,4 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests().antMatchers("/oauth/confirm_access").authenticated();
     }
+    
+    @Bean
+	@Autowired
+	public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
+		TokenApprovalStore store = new TokenApprovalStore();
+		store.setTokenStore(tokenStore);
+		return store;
+	}	
 }
