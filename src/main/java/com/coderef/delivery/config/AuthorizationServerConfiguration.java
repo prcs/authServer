@@ -55,6 +55,11 @@ public class AuthorizationServerConfiguration extends
     public JdbcTokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
     }
+    
+    @Bean
+    public JdbcClientDetailsService jdbcService() {
+    	return new JdbcClientDetailsService(dataSource);
+    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
@@ -64,15 +69,17 @@ public class AuthorizationServerConfiguration extends
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource)
-                .withClient(clientId)
-                .authorizedGrantTypes(authorizedGrantTypes)
-                .authorities(Authorities.names())
-                .resourceIds(resourceIds)
-                .redirectUris("http://localhost:9092/oauth/callback")
-                .scopes(scopes)
-                .secret(secret)
-                .accessTokenValiditySeconds(accessTokenValiditySeconds);
+
+    	clients.withClientDetails(jdbcService());
+//    	clients.jdbc(dataSource)
+//    	.withClient(clientId)
+//                .authorizedGrantTypes(authorizedGrantTypes)
+//                .authorities(Authorities.names())
+//                .resourceIds(resourceIds)
+//                .redirectUris("http://localhost:9092/oauth/callback")
+//                .scopes(scopes)
+//                .secret(secret)
+//                .accessTokenValiditySeconds(accessTokenValiditySeconds);
     }
 
     @Bean
